@@ -24,21 +24,23 @@
             </div>
             
             <div class="product-info">
-                <h1>{{ product }}</h1>
+                <!-- <h1>{{ product }}</h1> -->
+                <!-- Added a brand, so now I will use a computed property for the h1 -->
+                <h1>{{ title }}</h1>
                 <!-- <a :href="link">What are socks?</a> -->
                 <!-- <p>{{ description }}</p> -->
                 <!-- Can use v-if with boolean values. -->
                 <!-- <p v-if="inStock">In Stock</p> -->
                 <!-- Can use with conditional statements. -->
                 <!-- Note that v-if will add & remove elements from the DOM. -->
-                <p v-if="inventory > 10">In Stock</p>
+                <p v-if="inStock">In Stock</p>
                 <!-- Can also use to show a warning message with v-else-if -->
-                <p v-else-if="inventory <= 10 && inventory >0">Almost sold out!</p>
-                <p v-else
-                    :class="{ outOfStock: !inStock }">Out of Stock</p>
+                <!-- <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p> -->
+                <p v-else>Out of Stock</p>
                 <!-- Can also use v-show if inserting & removing causes problems,ex. with styling. Will just set display: none. -->
                 <!-- <p v-show="inStock">In Stock</p> -->
                 <!-- <p v-if="onSale">ON SALE!!!</p> -->
+                <p>{{ sale }}</p>
 
                 <ul>
                     <!-- Use v-for easily loop over a collection. Like an assembly line for lists. -->
@@ -47,11 +49,13 @@
 
                 <!-- When rendering lists like this, it's highgly recommended to use key attribute so that Vue can keep track of each node's identity. -->
                 <!-- Added indentation where :key is as per video. Aesthetic only. -->
-                <div v-for="variant in variants" 
+                <!-- <div v-for="variant in variants"  -->
+                <div v-for="(variant, index) in variants"
                     :key="variant.variantId"
                     class="color-box" 
                     :style="{ backgroundColor: variant.variantColor }"
-                    @mouseover="updateProduct(variant.variantImage)">
+                    @mouseover="updateProduct(index)">
+                    <!-- @mouseover="updateProduct(variant.variantImage)"> -->
                     <!-- Using dot notation to determine what to show. -->
                     <!-- Use v-on so that when we hover over colours, they will show the correct image. -->
                     <!-- Short form of v-on is @ -->
