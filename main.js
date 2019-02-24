@@ -11,7 +11,19 @@ var app = new Vue({
         // link: 'https://en.wikipedia.org/wiki/Socks_(disambiguation)',
         // inStock: true,
         inventory: 8,
-        onSale: true
+        // onSale: true,
+        details: ["80% cotton", "20% polyester", "Gender-neutral"],
+        variants: [
+            {
+                variantId: 2234,
+                variantColor: "green"
+            },
+            {
+                variantId: 2235,
+                variantColor: "blue"
+            }
+        ],
+        sizes: ["S", "M", "L", "XL"]
     }
 })
 
