@@ -9,8 +9,9 @@ var app = new Vue({
         // description: 'They go on your feet.',
         image: './assets/vmSocks-green.jpg',
         // link: 'https://en.wikipedia.org/wiki/Socks_(disambiguation)',
-        // inStock: true,
-        inventory: 8,
+        inStock: false,
+        // if above is false, styles will activate to gray out add to cart button
+        inventory: 0,
         // onSale: true,
         details: ["80% cotton", "20% polyester", "Gender-neutral"],
         variants: [

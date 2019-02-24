@@ -34,7 +34,8 @@
                 <p v-if="inventory > 10">In Stock</p>
                 <!-- Can also use to show a warning message with v-else-if -->
                 <p v-else-if="inventory <= 10 && inventory >0">Almost sold out!</p>
-                <p v-else>Out of Stock</p>
+                <p v-else
+                    :class="{ outOfStock: !inStock }">Out of Stock</p>
                 <!-- Can also use v-show if inserting & removing causes problems,ex. with styling. Will just set display: none. -->
                 <!-- <p v-show="inStock">In Stock</p> -->
                 <!-- <p v-if="onSale">ON SALE!!!</p> -->
@@ -45,12 +46,18 @@
                 </ul>
 
                 <!-- When rendering lists like this, it's highgly recommended to use key attribute so that Vue can keep track of each node's identity. -->
-                <div v-for="variant in variants" :key="variant.variantId">
+                <!-- Added indentation where :key is as per video. Aesthetic only. -->
+                <div v-for="variant in variants" 
+                    :key="variant.variantId"
+                    class="color-box" 
+                    :style="{ backgroundColor: variant.variantColor }"
+                    @mouseover="updateProduct(variant.variantImage)">
                     <!-- Using dot notation to determine what to show. -->
                     <!-- Use v-on so that when we hover over colours, they will show the correct image. -->
                     <!-- Short form of v-on is @ -->
                     <!-- Pass in an argument -->
-                    <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}
+                        <!-- Removed next line to :style, so that we could use the box to click instead of the word. -->
+                        <!-- <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }} -->
                      <!-- Other event handlers: @click, @submit, @keyup.enter (this one means when the enter key is pressed AND released (hence, the up) do this _____.  Also, the .enter is callled a modifier) -->
                     </p>
                 </div>
@@ -62,8 +69,10 @@
                 <!-- To add an increment on an event, use v-on -->
                 <!-- <button v-on:click="cart += 1">Add to Cart</button> -->
                 <!-- This wont work as well once expressions get more complicated. So, we will learn how to write methods and point them correctly. -->
-
-                <button v-on:click="addToCart">Add to Cart</button>
+                <!-- Added :disabled to prevent user from being able to put item in the cart if not in stock -->
+                <button v-on:click="addToCart" 
+                    :disabled="!inStock"
+                    :class="{ disabledButton: !inStock }">Add to Cart</button>
                 <button v-on:click="removeFromCart">Remove from Cart</button>
 
                 <div class="cart">
