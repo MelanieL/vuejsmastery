@@ -16,14 +16,34 @@ var app = new Vue({
         variants: [
             {
                 variantId: 2234,
-                variantColor: "green"
+                variantColor: "green",
+                variantImage:"./assets/vmSocks-green.jpg"
             },
             {
                 variantId: 2235,
-                variantColor: "blue"
+                variantColor: "blue",
+                variantImage: "./assets/vmSocks-blue.jpg"                
             }
         ],
-        sizes: ["S", "M", "L", "XL"]
-    }
+        sizes: ["S", "M", "L", "XL"],
+        cart: 0
+        },
+    methods: {
+            // Can also write functions in ES6 shorthand, ie addToCart() {} instead
+            addToCart: function () {
+                this.cart += 1
+            },
+            // Using ES6 shorthand for the challenge ex
+            // Also added the if statement to prevent the cart from going below zero
+            removeFromCart() {
+                if(this.cart > 0){
+                this.cart -= 1
+                }
+            },
+            updateProduct: function (variantImage) {
+                this.image = variantImage
+            }
+        }
+    
 })
 

@@ -45,14 +45,30 @@
                 </ul>
 
                 <!-- When rendering lists like this, it's highgly recommended to use key attribute so that Vue can keep track of each node's identity. -->
-                <div v-for="variant in variants">
+                <div v-for="variant in variants" :key="variant.variantId">
                     <!-- Using dot notation to determine what to show. -->
-                    <p>{{ variant.variantColor }}</p>
+                    <!-- Use v-on so that when we hover over colours, they will show the correct image. -->
+                    <!-- Short form of v-on is @ -->
+                    <!-- Pass in an argument -->
+                    <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}
+                     <!-- Other event handlers: @click, @submit, @keyup.enter (this one means when the enter key is pressed AND released (hence, the up) do this _____.  Also, the .enter is callled a modifier) -->
+                    </p>
                 </div>
 
                 <ul>
                     <li v-for="size in sizes">{{ size }}</li>
                 </ul>
+                
+                <!-- To add an increment on an event, use v-on -->
+                <!-- <button v-on:click="cart += 1">Add to Cart</button> -->
+                <!-- This wont work as well once expressions get more complicated. So, we will learn how to write methods and point them correctly. -->
+
+                <button v-on:click="addToCart">Add to Cart</button>
+                <button v-on:click="removeFromCart">Remove from Cart</button>
+
+                <div class="cart">
+                    <p>Cart({{cart}})</p>
+                </div>
 
             </div>
             
