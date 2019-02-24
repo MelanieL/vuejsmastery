@@ -25,8 +25,19 @@
             
             <div class="product-info">
                 <h1>{{ product }}</h1>
-                <a :href="link">What are socks?</a>
+                <!-- <a :href="link">What are socks?</a> -->
                 <!-- <p>{{ description }}</p> -->
+                <!-- Can use v-if with boolean values. -->
+                <!-- <p v-if="inStock">In Stock</p> -->
+                <!-- Can use with conditional statements. -->
+                <!-- Note that v-if will add & remove elements from the DOM. -->
+                <p v-if="inventory > 10">In Stock</p>
+                <!-- Can also use to show a warning message with v-else-if -->
+                <p v-else-if="inventory <= 10 && inventory >0">Almost sold out!</p>
+                <p v-else>Out of Stock</p>
+                <!-- Can also use v-show if inserting & removing causes problems,ex. with styling. Will just set display: none. -->
+                <!-- <p v-show="inStock">In Stock</p> -->
+                <p v-if="onSale">ON SALE!!!</p>
             </div>
             
         </div>

@@ -8,7 +8,10 @@ var app = new Vue({
         product: 'Socks',
         // description: 'They go on your feet.',
         image: './assets/vmSocks-green.jpg',
-        link: 'https://en.wikipedia.org/wiki/Socks_(disambiguation)',
+        // link: 'https://en.wikipedia.org/wiki/Socks_(disambiguation)',
+        // inStock: true,
+        inventory: 8,
+        onSale: true
     }
 })
 
