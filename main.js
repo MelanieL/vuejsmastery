@@ -6,7 +6,9 @@ var app = new Vue({
     // Can put data into it
     data: {
         product: 'Socks',
-        description: 'Fancy foot warming fashion.'
+        // description: 'They go on your feet.',
+        image: './assets/vmSocks-green.jpg',
+        link: 'https://en.wikipedia.org/wiki/Socks_(disambiguation)',
     }
 })
 

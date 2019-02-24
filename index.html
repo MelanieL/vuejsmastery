@@ -8,10 +8,29 @@
     <title>Vue Mastery - Intro To Vue.js - Lesson 01 - Product App</title>
 </head>
 <body>
-    
+
+    <div class="nav-bar"></div>
+
     <div id="app">
-        <h1>{{ product }}</h1>
-        <p>{{ description }}</p>
+
+        <div class="product">
+
+            <div class="product-image">
+                <!-- Use v-bind directive to link to image. Dynamically binds an attribute to an expression. -->
+                <!-- <img v-bind:src="image" /> -->
+                <!-- Use shorthand for v-bind instead by only using the colon. -->
+                <img :src="image" />
+                <!-- Other examples of shorthands are :alt, :href, :title, :class, :style, :disabled -->
+            </div>
+            
+            <div class="product-info">
+                <h1>{{ product }}</h1>
+                <a :href="link">What are socks?</a>
+                <!-- <p>{{ description }}</p> -->
+            </div>
+            
+        </div>
+        
     </div>
 
 </body>
