@@ -13,7 +13,11 @@
 
     <div id="app">
         <!-- Passing in props here -->
-        <product :premium="premium"></product>
+        <product :premium="premium" @add-to-cart="updateCart"></product>
+
+        <div class="cart">
+            <p>Cart({{ cart.length }})</p>
+        </div>
 
     </div>
 

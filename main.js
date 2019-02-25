@@ -1,3 +1,4 @@
+Vue.config.devtools = true
 // Creating a view components, which is basically all the pieces that can be reused. You can have components within components.
 Vue.component('product', {
     props: {
@@ -40,10 +41,6 @@ Vue.component('product', {
                         :class="{ disabledButton: !inStock }">Add to Cart</button>
                     <button v-on:click="removeFromCart">Remove from Cart</button>
 
-                    <div class="cart">
-                        <p>Cart({{cart}})</p>
-                    </div>
-
                 </div>
             
             </div>
@@ -78,14 +75,13 @@ Vue.component('product', {
                 }
             ],
             sizes: ["S", "M", "L", "XL"],
-            cart: 0,
             onSale: true
         }
     },
     methods: {
         // Can also write functions in ES6 shorthand, ie addToCart() {} instead
         addToCart: function () {
-            this.cart += 1
+            this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
         },
         // Using ES6 shorthand for the challenge ex
         // Also added the if statement to prevent the cart from going below zero
@@ -135,7 +131,13 @@ var app = new Vue({
     // Relationship between instance and DOM, use property el
     el: '#app',
     data: {
-        premium: false
+        premium: false,
+        cart: []
+    },
+    methods: {
+        updateCart(id) {
+            this.cart.push(id)
+        }
     }
 })
 
