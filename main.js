@@ -1,5 +1,3 @@
-Vue.config.devtools = true
-// Creating a view components, which is basically all the pieces that can be reused. You can have components within components.
 Vue.component('product', {
     props: {
         premium: {
@@ -8,96 +6,88 @@ Vue.component('product', {
         }
     },
     template: `
-            <div class="product">
+     <div class="product">
+          
+        <div class="product-image">
+          <img :src="image" />
+        </div>
+  
+        <div class="product-info">
+            <h1>{{ product }}</h1>
+            <p v-if="inStock">In Stock</p>
+            <p v-else>Out of Stock</p>
+            <p>Shipping: {{ shipping }}</p>
+  
+            <ul>
+              <li v-for="detail in details">{{ detail }}</li>
+            </ul>
+  
+            <div class="color-box"
+                 v-for="(variant, index) in variants" 
+                 :key="variant.variantId"
+                 :style="{ backgroundColor: variant.variantColor }"
+                 @mouseover="updateProduct(index)"
+                 >
+            </div> 
+  
+            <button v-on:click="addToCart" 
+              :disabled="!inStock"
+              :class="{ disabledButton: !inStock }"
+              >
+            Add to cart
+            </button>
+  
+         </div> 
 
-                <div class="product-image">
-                    <img :src="image" />
-                </div>
-            
-                <div class="product-info">
-                    <h1>{{ title }}</h1>
-                    <p v-if="inStock">In Stock</p>
-                    <p v-else>Out of Stock</p>
-                    <p>Shipping: {{ shipping }}</p>
-
-                    <ul>
-                        <li v-for="detail in details">{{ detail }}</li>
-                    </ul>
-
-                    <div v-for="(variant, index) in variants"
-                        :key="variant.variantId"
-                        class="color-box" 
-                        :style="{ backgroundColor: variant.variantColor }"
-                        @mouseover="updateProduct(index)">
-                        </p>
-                    </div>
-
-                    <ul>
-                        <li v-for="size in sizes">{{ size }}</li>
-                    </ul>
-                    
-                    <button v-on:click="addToCart" 
-                        :disabled="!inStock"
-                        :class="{ disabledButton: !inStock }">Add to Cart</button>
-                    <button v-on:click="removeFromCart">Remove from Cart</button>
-
-                </div>
-            
-            </div>
-    `,
+          <div>
+              <p v-if="!reviews.length">There are no reviews yet.</p>
+              <ul v-else>
+                  <li v-for="(review, index) in reviews" :key="index">
+                    <p>{{ review.name }}</p>
+                    <p>Rating:{{ review.rating }}</p>
+                    <p>{{ review.review }}</p>
+                  </li>
+              </ul>
+          </div>
+         
+         <product-review @review-submitted="addReview"></product-review>
+      
+      </div>
+     `,
     data() {
         return {
             product: 'Socks',
             brand: 'Vue Mastery',
-            // description: 'They go on your feet.',
-            // Removed image: to replace with selectedVariant
-            // image: './assets/vmSocks-green.jpg',
             selectedVariant: 0,
-            // link: 'https://en.wikipedia.org/wiki/Socks_(disambiguation)',
-            // Removed instock to turn it into a computed property so it pulls from the variants for quantities instead
-            // inStock: false,
-            // if above is false, styles will activate to gray out add to cart button
-            // inventory: 0,
-            // onSale: true,
-            details: ["80% cotton", "20% polyester", "Gender-neutral"],
+            details: ['80% cotton', '20% polyester', 'Gender-neutral'],
             variants: [
                 {
                     variantId: 2234,
-                    variantColor: "green",
-                    variantImage: "./assets/vmSocks-green.jpg",
+                    variantColor: 'green',
+                    variantImage: 'https://www.vuemastery.com/images/challenges/vmSocks-green-onWhite.jpg',
                     variantQuantity: 10
                 },
                 {
                     variantId: 2235,
-                    variantColor: "blue",
-                    variantImage: "./assets/vmSocks-blue.jpg",
+                    variantColor: 'blue',
+                    variantImage: 'https://www.vuemastery.com/images/challenges/vmSocks-blue-onWhite.jpg',
                     variantQuantity: 0
                 }
             ],
-            sizes: ["S", "M", "L", "XL"],
-            onSale: true
+            reviews: []
         }
     },
     methods: {
-        // Can also write functions in ES6 shorthand, ie addToCart() {} instead
-        addToCart: function () {
+        addToCart() {
             this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
         },
-        // Using ES6 shorthand for the challenge ex
-        // Also added the if statement to prevent the cart from going below zero
-        removeFromCart() {
-            if (this.cart > 0) {
-                this.cart -= 1
-            }
-        },
-        // updateProduct: function (variantImage) {
         updateProduct(index) {
-            // this.image = variantImage
             this.selectedVariant = index
-            console.log(index)
+        },
+        addReview(productReview) {
+            this.reviews.push(productReview)
         }
     },
-    // Computed properties are cached (results are saved until they are changed). These are calculations.
     computed: {
         title() {
             return this.brand + ' ' + this.product
@@ -108,14 +98,6 @@ Vue.component('product', {
         inStock() {
             return this.variants[this.selectedVariant].variantQuantity
         },
-        sale() {
-            if (this.onSale) {
-                return this.brand + ' ' + this.product + ' On Sale!'
-            }
-            else {
-                return this.brand + ' ' + this.product + ' Not on Sale.'
-            }
-        },
         shipping() {
             if (this.premium) {
                 return "Free"
@@ -125,13 +107,93 @@ Vue.component('product', {
     }
 })
 
-// new Vue creates a new view instance, which is the root of a Vue.js app
+
+Vue.component('product-review', {
+    template: `
+      <form class="review-form" @submit.prevent="onSubmit">
+      
+        <p class="error" v-if="errors.length">
+          <b>Please correct the following error(s):</b>
+          <ul>
+            <li v-for="error in errors">{{ error }}</li>
+          </ul>
+        </p>
+
+        <p>
+          <label for="name">Name:</label>
+          <input id="name" v-model="name">
+        </p>
+        
+        <p>
+          <label for="review">Review:</label>      
+          <textarea id="review" v-model="review"></textarea>
+        </p>
+        
+        <p>
+          <label for="rating">Rating:</label>
+          <select id="rating" v-model.number="rating">
+            <option>5</option>
+            <option>4</option>
+            <option>3</option>
+            <option>2</option>
+            <option>1</option>
+          </select>
+        </p>
+
+        <p>Would you recommend this product?</p>
+        <label>
+          Yes
+          <input type="radio" value="Yes" v-model="recommend"/>
+        </label>
+        <label>
+          No
+          <input type="radio" value="No" v-model="recommend"/>
+        </label>
+            
+        <p>
+          <input type="submit" value="Submit">  
+        </p>    
+      
+    </form>
+    `,
+    data() {
+        return {
+            name: null,
+            review: null,
+            rating: null,
+            recommend: null,
+            errors: []
+        }
+    },
+    methods: {
+        onSubmit() {
+            this.errors = []
+            if (this.name && this.review && this.rating && this.recommend) {
+                let productReview = {
+                    name: this.name,
+                    review: this.review,
+                    rating: this.rating,
+                    recommend: this.recommend
+                }
+                this.$emit('review-submitted', productReview)
+                this.name = null
+                this.review = null
+                this.rating = null
+                this.recommend = null
+            } else {
+                if (!this.name) this.errors.push("Name required.")
+                if (!this.review) this.errors.push("Review required.")
+                if (!this.rating) this.errors.push("Rating required.")
+                if (!this.recommend) this.errors.push("Recommendation required.")
+            }
+        }
+    }
+})
+
 var app = new Vue({
-    // Pass an options object into it
-    // Relationship between instance and DOM, use property el
     el: '#app',
     data: {
-        premium: false,
+        premium: true,
         cart: []
     },
     methods: {
@@ -140,4 +202,3 @@ var app = new Vue({
         }
     }
 })
-

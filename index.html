@@ -12,13 +12,10 @@
     <div class="nav-bar"></div>
 
     <div id="app">
-        <!-- Passing in props here -->
-        <product :premium="premium" @add-to-cart="updateCart"></product>
-
         <div class="cart">
             <p>Cart({{ cart.length }})</p>
         </div>
-
+        <product :premium="premium" @add-to-cart="updateCart"></product>
     </div>
 
 </body>
