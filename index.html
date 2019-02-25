@@ -12,81 +12,9 @@
     <div class="nav-bar"></div>
 
     <div id="app">
+        <!-- Passing in props here -->
+        <product :premium="premium"></product>
 
-        <div class="product">
-
-            <div class="product-image">
-                <!-- Use v-bind directive to link to image. Dynamically binds an attribute to an expression. -->
-                <!-- <img v-bind:src="image" /> -->
-                <!-- Use shorthand for v-bind instead by only using the colon. -->
-                <img :src="image" />
-                <!-- Other examples of shorthands are :alt, :href, :title, :class, :style, :disabled -->
-            </div>
-            
-            <div class="product-info">
-                <!-- <h1>{{ product }}</h1> -->
-                <!-- Added a brand, so now I will use a computed property for the h1 -->
-                <h1>{{ title }}</h1>
-                <!-- <a :href="link">What are socks?</a> -->
-                <!-- <p>{{ description }}</p> -->
-                <!-- Can use v-if with boolean values. -->
-                <!-- <p v-if="inStock">In Stock</p> -->
-                <!-- Can use with conditional statements. -->
-                <!-- Note that v-if will add & remove elements from the DOM. -->
-                <p v-if="inStock">In Stock</p>
-                <!-- Can also use to show a warning message with v-else-if -->
-                <!-- <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p> -->
-                <p v-else>Out of Stock</p>
-                <!-- Can also use v-show if inserting & removing causes problems,ex. with styling. Will just set display: none. -->
-                <!-- <p v-show="inStock">In Stock</p> -->
-                <!-- <p v-if="onSale">ON SALE!!!</p> -->
-                <p>{{ sale }}</p>
-
-                <ul>
-                    <!-- Use v-for easily loop over a collection. Like an assembly line for lists. -->
-                    <li v-for="detail in details">{{ detail }}</li>
-                </ul>
-
-                <!-- When rendering lists like this, it's highgly recommended to use key attribute so that Vue can keep track of each node's identity. -->
-                <!-- Added indentation where :key is as per video. Aesthetic only. -->
-                <!-- <div v-for="variant in variants"  -->
-                <div v-for="(variant, index) in variants"
-                    :key="variant.variantId"
-                    class="color-box" 
-                    :style="{ backgroundColor: variant.variantColor }"
-                    @mouseover="updateProduct(index)">
-                    <!-- @mouseover="updateProduct(variant.variantImage)"> -->
-                    <!-- Using dot notation to determine what to show. -->
-                    <!-- Use v-on so that when we hover over colours, they will show the correct image. -->
-                    <!-- Short form of v-on is @ -->
-                    <!-- Pass in an argument -->
-                        <!-- Removed next line to :style, so that we could use the box to click instead of the word. -->
-                        <!-- <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }} -->
-                     <!-- Other event handlers: @click, @submit, @keyup.enter (this one means when the enter key is pressed AND released (hence, the up) do this _____.  Also, the .enter is callled a modifier) -->
-                    </p>
-                </div>
-
-                <ul>
-                    <li v-for="size in sizes">{{ size }}</li>
-                </ul>
-                
-                <!-- To add an increment on an event, use v-on -->
-                <!-- <button v-on:click="cart += 1">Add to Cart</button> -->
-                <!-- This wont work as well once expressions get more complicated. So, we will learn how to write methods and point them correctly. -->
-                <!-- Added :disabled to prevent user from being able to put item in the cart if not in stock -->
-                <button v-on:click="addToCart" 
-                    :disabled="!inStock"
-                    :class="{ disabledButton: !inStock }">Add to Cart</button>
-                <button v-on:click="removeFromCart">Remove from Cart</button>
-
-                <div class="cart">
-                    <p>Cart({{cart}})</p>
-                </div>
-
-            </div>
-            
-        </div>
-        
     </div>
 
 </body>
